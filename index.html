@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yellowstone PC Colors</title>
+    <link rel="stylesheet" href="/src/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Pantalla de Bienvenida -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-content">
+            <div class="welcome-text">
+                <h1>Bienvenido a Yellowstone PC Colors</h1>
+                <p>Tu destino para las mejores fiestas</p>
+                <div class="welcome-buttons">
+                    <button onclick="showScreen('about-screen')">Conoce más sobre nosotros</button>
+                    <button onclick="showScreen('catalog-screen')">Ver catálogo de productos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla Acerca de -->
+    <div id="about-screen" class="screen">
+        <div class="about-content">
+            <h2>Sobre Yellowstone PC Colors</h2>
+            <div class="about-video-section">
+                <video class="about-content-video" controls>
+                    <source src="/peces.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            </div>
+            <div class="about-section">
+                <h3>Misión</h3>
+                <p>Proporcionar soluciones tecnológicas personalizadas de alta calidad, ofreciendo productos y servicios que superen las expectativas de nuestros clientes.</p>
+            </div>
+            <div class="about-section">
+                <h3>Visión</h3>
+                <p>Ser líderes en el mercado de computadoras personalizadas, reconocidos por nuestra innovación, calidad y servicio al cliente.</p>
+            </div>
+            <div class="about-section">
+                <h3>Valores</h3>
+                <ul>
+                    <li>Calidad</li>
+                    <li>Innovación</li>
+                    <li>Integridad</li>
+                    <li>Servicio al cliente</li>
+                    <li>Excelencia</li>
+                </ul>
+            </div>
+            <button onclick="showScreen('welcome-screen')">Volver al inicio</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Catálogo -->
+    <div id="catalog-screen" class="screen">
+        <div class="catalog-content">
+            <h2>Catálogo de Productos</h2>
+            <div class="products-grid" id="products-container">
+                <!-- Los productos se cargarán dinámicamente con JavaScript -->
+            </div>
+            <div style="text-align: center; margin: 2rem 0;">
+                <button onclick="clearCartAndStorage()" style="background: #ff8e8e; margin-right: 1rem;">🗑️ Limpiar Carrito</button>
+            </div>
+            
+            <div style="text-align: center; margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                <h4 style="color: #fff; margin-bottom: 1rem;">🎯 Agregar Productos Específicos</h4>
+                <button onclick="addSpecificProduct(1)" style="background: #E91E63; margin-right: 0.5rem;">PC Gamer Pro</button>
+                <button onclick="addSpecificProduct(2)" style="background: #E91E63; margin-right: 0.5rem;">PC Workstation</button>
+                <button onclick="addSpecificProduct(3)" style="background: #E91E63; margin-right: 0.5rem;">PC Gaming Básica</button>
+                <button onclick="addSpecificProduct(4)" style="background: #E91E63; margin-right: 0.5rem;">PC Streaming</button>
+                <button onclick="addSpecificProduct(5)" style="background: #E91E63;">PC Compacta</button>
+            </div>
+            <button onclick="showScreen('welcome-screen')">Volver al inicio</button>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles del Producto -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-product-details"></div>
+        </div>
+    </div>
+
+    <!-- Carrito de Compras -->
+    <div id="cart" class="cart">
+        <h3>Carrito de Compras</h3>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            <p>Total: $<span id="cart-total-amount">0</span></p>
+            <button onclick="showPaymentScreen()">Pagar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Pago -->
+    <div id="payment-screen" class="screen">
+        <div class="payment-content">
+            <div class="payment-header">
+                <h2>💳 Información de Pago</h2>
+                <p>Complete los datos de su tarjeta para finalizar la compra</p>
+            </div>
+            
+            <div class="payment-summary">
+                <h3>Resumen de Compra</h3>
+                <div id="payment-cart-summary"></div>
+                <div class="payment-total">
+                    <strong>Total a Pagar: $<span id="payment-total-amount">0</span></strong>
+                </div>
+            </div>
+            
+            <form id="payment-form" class="payment-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="card-holder">Nombre del Titular:</label>
+                        <input type="text" id="card-holder" placeholder="Como aparece en la tarjeta" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="card-number">Número de Tarjeta:</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry-month">Mes de Expiración:</label>
+                        <select id="expiry-month" required>
+                            <option value="">Mes</option>
+                            <option value="01">01 - Enero</option>
+                            <option value="02">02 - Febrero</option>
+                            <option value="03">03 - Marzo</option>
+                            <option value="04">04 - Abril</option>
+                            <option value="05">05 - Mayo</option>
+                            <option value="06">06 - Junio</option>
+                            <option value="07">07 - Julio</option>
+                            <option value="08">08 - Agosto</option>
+                            <option value="09">09 - Septiembre</option>
+                            <option value="10">10 - Octubre</option>
+                            <option value="11">11 - Noviembre</option>
+                            <option value="12">12 - Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiry-year">Año de Expiración:</label>
+                        <select id="expiry-year" required>
+                            <option value="">Año</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV:</label>
+                        <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email para el recibo:</label>
+                        <input type="email" id="email" placeholder="su@email.com" required>
+                    </div>
+                </div>
+                
+                <div class="payment-buttons">
+                    <button type="button" onclick="showScreen('catalog-screen')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">💳 Confirmar Pago</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Recibo -->
+    <div id="receipt-screen" class="screen">
+        <div class="receipt-content">
+            <div class="receipt-header">
+                <h2>🎉 ¡Compra Exitosa!</h2>
+                <p>Su pedido ha sido procesado correctamente</p>
+            </div>
+            <div id="receipt-details" class="receipt-details"></div>
+            <div class="receipt-actions">
+                <button onclick="printReceipt()" class="btn-print">🖨️ Imprimir Recibo</button>
+                <button onclick="showScreen('welcome-screen')" class="btn-primary">🏠 Volver al Inicio</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
